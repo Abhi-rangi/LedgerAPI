@@ -1,0 +1,17 @@
+{
+  "name": "clientapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fabric-ca-client": "^2.2.20",
+    "fabric-network": "^2.2.20",
+    "js-yaml": "^4.1.0"
+  }
+}
