@@ -1,0 +1,23 @@
+title Hyperledger Fabric Application Setup and Operation Sequence Diagram
+
+participant Admin/User
+participant enrollAdmin.js
+participant Wallet
+participant Fabric CA
+participant registerUser.js
+note over Admin/User: Initiates the enrollment and registration process
+
+Admin/User->enrollAdmin.js: Trigger enrollment process
+enrollAdmin.js->Wallet: Check if admin is already enrolled
+Wallet->enrollAdmin.js: Return enrollment status
+note right of enrollAdmin.js: If not enrolled, proceed to enroll
+enrollAdmin.js->Fabric CA: Enroll admin
+Fabric CA->Wallet: Store admin identity
+
+note over Admin/User: Proceed to register a new user
+Admin/User->registerUser.js: Trigger user registration
+registerUser.js->Wallet: Retrieve admin identity
+Wallet->registerUser.js: Return admin identity
+registerUser.js->Fabric CA: Register and enroll new user
+Fabric CA->Wallet: Store new user identity
+

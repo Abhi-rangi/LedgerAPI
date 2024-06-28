@@ -4,11 +4,11 @@ fetch("http://localhost:3000/create-asset", {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    assetID: "asset4",
-    color: "Red",
-    size: "20",
-    owner: "Abhishek",
-    appraisedValue: "3000",
+    assetID: "asset7",
+    color: "yellow",
+    size: "45",
+    owner: "Pouria",
+    appraisedValue: "4000",
   }),
 })
   .then((response) => response.json())

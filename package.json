@@ -2,16 +2,22 @@
   "name": "clientapi",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "createChannel.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
+  "resolutions": {
+    "grpc": "npm:@grpc/grpc-js"
+  },
   "dependencies": {
+    "@grpc/grpc-js": "^1.10.10",
+    "express": "^4.19.2",
     "fabric-ca-client": "^2.2.20",
     "fabric-network": "^2.2.20",
+    "http": "^0.0.1-security",
     "js-yaml": "^4.1.0"
   }
 }

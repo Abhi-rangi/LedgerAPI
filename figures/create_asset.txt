@@ -1,0 +1,16 @@
+title Hyperledger Fabric Application Setup and Operation Sequence Diagram
+
+participant server.js
+participant Gateway
+participant Network (Channel)
+participant Contract
+
+
+note over User: Perform operations through the server
+User->server.js: Request operations (e.g., create asset)
+server.js->Gateway: Connect to network using new user's identity
+Gateway->Network (Channel): Perform requested operations
+Network (Channel)->Contract: Execute smart contract operations
+Contract->Network (Channel): Return operation results
+Network (Channel)->server.js: Relay results
+server.js->User: Display results to user

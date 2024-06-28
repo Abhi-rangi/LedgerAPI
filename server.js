@@ -69,28 +69,41 @@ app.post("/create-asset", async (req, res) => {
   }
 });
 
-app.get("/fetch-asset/:assetID", async (req, res) => {
+app.post("/create-patient", async (req, res) => {
   try {
-    const { assetID } = req.params;
+    // Assuming your patient data comes as a JSON object in the request body
+    const patientData = req.body;
     const gateway = await connectToGateway();
     if (!gateway) {
       res.status(500).send("Failed to connect to gateway.");
       return;
     }
     const network = await gateway.getNetwork("mychannel");
-    const contract = network.getContract("basic");
+    const contract = network.getContract("patientTransfer"); // Ensure this matches the deployed chaincode name
 
-    const result = await contract.evaluateTransaction("ReadAsset", assetID);
+    // Submit transaction for creating a patient. Assume the chaincode function 'CreatePatient' takes a JSON string
+    await contract.submitTransaction(
+      "CreatePatient",
+      JSON.stringify(patientData)
+    );
     await gateway.disconnect();
 
-    res.status(200).json(JSON.parse(result.toString()));
+    res.status(200).json({ message: "Patient record has been created." });
   } catch (error) {
-    console.error(`Failed to evaluate transaction: ${error}`);
+    console.error(`Failed to submit transaction: ${error}`);
     res
       .status(500)
-      .json({ message: `Failed to fetch asset: ${error.message}` });
+      .json({ message: `Failed to create patient: ${error.message}` });
   }
 });
+
+
+
+app.listen(3000, () => {
+  console.log("Server is listening on port http://localhost:3000");
+});
+
+
 app.get("/fetch-all-assets", async (req, res) => {
   try {
     const gateway = await connectToGateway();
@@ -113,8 +126,25 @@ app.get("/fetch-all-assets", async (req, res) => {
   }
 });
 
+app.get("/fetch-asset/:assetID", async (req, res) => {
+  try {
+    const { assetID } = req.params;
+    const gateway = await connectToGateway();
+    if (!gateway) {
+      res.status(500).send("Failed to connect to gateway.");
+      return;
+    }
+    const network = await gateway.getNetwork("mychannel");
+    const contract = network.getContract("basic");
 
-app.listen(3000, () => {
-  console.log("Server is listening on port 3000");
+    const result = await contract.evaluateTransaction("ReadAsset", assetID);
+    await gateway.disconnect();
+
+    res.status(200).json(JSON.parse(result.toString()));
+  } catch (error) {
+    console.error(`Failed to evaluate transaction: ${error}`);
+    res
+      .status(500)
+      .json({ message: `Failed to fetch asset: ${error.message}` });
+  }
 });
-
