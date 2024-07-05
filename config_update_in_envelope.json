@@ -1,0 +1,91 @@
+{
+  "payload": {
+    "header": {
+      "channel_header": {
+        "channel_id": "mychannel",
+        "type": 2
+      }
+    },
+    "data": {
+      "config_update": {
+        "channel_id": "mychannel",
+        "isolated_data": {},
+        "read_set": {
+          "groups": {
+            "Application": {
+              "groups": {
+                "Org1MSP": {
+                  "groups": {},
+                  "mod_policy": "",
+                  "policies": {},
+                  "values": {},
+                  "version": "1"
+                }
+              },
+              "mod_policy": "",
+              "policies": {},
+              "values": {},
+              "version": "0"
+            }
+          },
+          "mod_policy": "",
+          "policies": {},
+          "values": {},
+          "version": "0"
+        },
+        "write_set": {
+          "groups": {
+            "Application": {
+              "groups": {
+                "Org1MSP": {
+                  "groups": {},
+                  "mod_policy": "",
+                  "policies": {},
+                  "values": {
+                    "AnchorPeers": {
+                      "mod_policy": "Admins",
+                      "value": {
+                        "anchor_peers": [
+                          {
+                            "host": "peer0.org1.example.com",
+                            "port": 7051
+                          },
+                          {
+                            "host": "peer1.org1.example.com",
+                            "port": 7051
+                          },
+                          {
+                            "host": "peer1.org1.example.com",
+                            "port": 7052
+                          },
+                          {
+                            "host": "peer0.org3.example.com",
+                            "port": 7052
+                          },
+                          {
+                            "host": "peer0.org4.example.com",
+                            "port": 7052
+                          }
+                        ]
+                      },
+                      "version": "4"
+                    }
+                  },
+                  "version": "1"
+                }
+              },
+              "mod_policy": "",
+              "policies": {},
+              "values": {},
+              "version": "0"
+            }
+          },
+          "mod_policy": "",
+          "policies": {},
+          "values": {},
+          "version": "0"
+        }
+      }
+    }
+  }
+}

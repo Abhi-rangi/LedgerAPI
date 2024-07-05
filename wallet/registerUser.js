@@ -6,7 +6,7 @@ const yaml = require("js-yaml");
 
 async function main() {
   const ccpPath = path.resolve(
-    "/Users/abhishek/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com",
+    "/Users/pouriatayebi/go/src/github.com/pouriata2000/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com",
     "connection-org1.yaml"
   );
   const ccp = yaml.load(fs.readFileSync(ccpPath, "utf8"));
@@ -37,13 +37,13 @@ async function main() {
     const secret = await ca.register(
       {
         affiliation: "org1.department1",
-        enrollmentID: "newUser",
+        enrollmentID: "newuser",
         role: "client",
       },
       adminUser
     );
     const enrollment = await ca.enroll({
-      enrollmentID: "newUser",
+      enrollmentID: "newuser",
       enrollmentSecret: secret,
     });
     const userIdentity = {
@@ -54,9 +54,9 @@ async function main() {
       mspId: "Org1MSP",
       type: "X.509",
     };
-    await wallet.put("newUser", userIdentity);
+    await wallet.put("newuser", userIdentity);
     console.log(
-      'Successfully registered and enrolled user "newUser" and imported it into the wallet'
+      'Successfully registered and enrolled user "newuser" and imported it into the wallet'
     );
   } catch (error) {
     console.error(`Error in registering or enrolling user: ${error}`);

@@ -1,9 +1,10 @@
 const createPatient = async () => {
   const url = "http://localhost:3000/create-patient";
+  const urlread = "http://localhost:3000/read-all-patients";
 
   const patientData = {
     resourceType: "Patient",
-    id: "patient123",
+    id: "patient1",
     identifier: [
       {
         use: "usual",
@@ -59,6 +60,8 @@ const createPatient = async () => {
   } catch (error) {
     console.error("Error:", error);
   }
+
+  
 };
 
 // Call the function to execute the POST request

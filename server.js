@@ -10,7 +10,7 @@ app.use(express.json());
 
 const connectToGateway = async () => {
   const ccpPath = path.resolve(
-    "/Users/abhishek/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com",
+    "/Users/pouriatayebi/go/src/github.com/pouriata2000/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com",
     "connection-org1.yaml"
   );
   const ccp = yaml.load(fs.readFileSync(ccpPath, "utf8"));
@@ -18,10 +18,12 @@ const connectToGateway = async () => {
   const walletPath = path.join(process.cwd(), "wallet");
   const wallet = await Wallets.newFileSystemWallet(walletPath);
 
-  const identity = await wallet.get("newUser");
+
+  const identity = await wallet.get("newuser");
+ 
   if (!identity) {
     console.log(
-      'An identity for the user "newUser" does not exist in the wallet'
+      'An identity for the user "newuser" does not exist in the wallet'
     );
     console.log("Run the registerUser.js application before retrying");
     return null;
@@ -30,44 +32,44 @@ const connectToGateway = async () => {
   const gateway = new Gateway();
   await gateway.connect(ccp, {
     wallet,
-    identity: "newUser",
+    identity: "newuser",
     discovery: { enabled: true, asLocalhost: true },
   });
 
   return gateway;
 };
 
-app.post("/create-asset", async (req, res) => {
-  try {
-    const { assetID, color, size, owner, appraisedValue } = req.body;
-    const gateway = await connectToGateway();
-    if (!gateway) {
-      res.status(500).send("Failed to connect to gateway.");
-      return;
-    }
-    const network = await gateway.getNetwork("mychannel");
-    const contract = network.getContract("basic");
+// app.post("/create-asset", async (req, res) => {
+//   try {
+//     const { assetID, color, size, owner, appraisedValue } = req.body;
+//     const gateway = await connectToGateway();
+//     if (!gateway) {
+//       res.status(500).send("Failed to connect to gateway.");
+//       return;
+//     }
+//     const network = await gateway.getNetwork("mychannel");
+//     const contract = network.getContract("basic");
 
-    await contract.submitTransaction(
-      "CreateAsset",
-      assetID,
-      color,
-      size,
-      owner,
-      appraisedValue
-    );
-    await gateway.disconnect();
+//     await contract.submitTransaction(
+//       "CreateAsset",
+//       assetID,
+//       color,
+//       size,
+//       owner,
+//       appraisedValue
+//     );
+//     await gateway.disconnect();
 
-    res
-      .status(200)
-      .json({ message: `Asset with ID ${assetID} has been created.` });
-  } catch (error) {
-    console.error(`Failed to submit transaction: ${error}`);
-    res
-      .status(500)
-      .json({ message: `Failed to create asset: ${error.message}` });
-  }
-});
+//     res
+//       .status(200)
+//       .json({ message: `Asset with ID ${assetID} has been created.` });
+//   } catch (error) {
+//     console.error(`Failed to submit transaction: ${error}`);
+//     res
+//       .status(500)
+//       .json({ message: `Failed to create asset: ${error.message}` });
+//   }
+// });
 
 app.post("/create-patient", async (req, res) => {
   try {
@@ -79,7 +81,7 @@ app.post("/create-patient", async (req, res) => {
       return;
     }
     const network = await gateway.getNetwork("mychannel");
-    const contract = network.getContract("patientTransfer"); // Ensure this matches the deployed chaincode name
+    const contract = network.getContract("basic"); // Ensure this matches the deployed chaincode name
 
     // Submit transaction for creating a patient. Assume the chaincode function 'CreatePatient' takes a JSON string
     await contract.submitTransaction(
@@ -104,7 +106,7 @@ app.listen(3000, () => {
 });
 
 
-app.get("/fetch-all-assets", async (req, res) => {
+app.get("/get-all-patients", async (req, res) => {
   try {
     const gateway = await connectToGateway();
     if (!gateway) {
@@ -114,7 +116,7 @@ app.get("/fetch-all-assets", async (req, res) => {
     const network = await gateway.getNetwork("mychannel");
     const contract = network.getContract("basic");
 
-    const result = await contract.evaluateTransaction("GetAllAssets");
+    const result = await contract.evaluateTransaction("GetAllPatients");
     await gateway.disconnect();
 
     res.status(200).json(JSON.parse(result.toString()));
@@ -126,25 +128,26 @@ app.get("/fetch-all-assets", async (req, res) => {
   }
 });
 
-app.get("/fetch-asset/:assetID", async (req, res) => {
-  try {
-    const { assetID } = req.params;
-    const gateway = await connectToGateway();
-    if (!gateway) {
-      res.status(500).send("Failed to connect to gateway.");
-      return;
-    }
-    const network = await gateway.getNetwork("mychannel");
-    const contract = network.getContract("basic");
+// app.get("/fetch-asset/:assetID", async (req, res) => {
+//   try {
+//     const { assetID } = req.params;
+//     const gateway = await connectToGateway();
+//     if (!gateway) {
+//       res.status(500).send("Failed to connect to gateway.");
+//       return;
+//     }
+//     const network = await gateway.getNetwork("mychannel");
+//     const contract = network.getContract("basic");
 
-    const result = await contract.evaluateTransaction("ReadAsset", assetID);
-    await gateway.disconnect();
+//     const result = await contract.evaluateTransaction("ReadAsset", assetID);
+//     await gateway.disconnect();
 
-    res.status(200).json(JSON.parse(result.toString()));
-  } catch (error) {
-    console.error(`Failed to evaluate transaction: ${error}`);
-    res
-      .status(500)
-      .json({ message: `Failed to fetch asset: ${error.message}` });
-  }
-});
+//     res.status(200).json(JSON.parse(result.toString()));
+//   } catch (error) {
+//     console.error(`Failed to evaluate transaction: ${error}`);
+//     res
+//       .status(500)
+//       .json({ message: `Failed to fetch asset: ${error.message}` });
+//   }
+// }
+// );
