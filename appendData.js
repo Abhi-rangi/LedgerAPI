@@ -1,12 +1,12 @@
 const fetch = require('node-fetch');
 
-const registerUser = async (org, enrollmentID, affiliation, role) => {
-  const url = "http://localhost:3000/registerUser";
+const appendData = async (org, identityName, patientId, observationData) => {
+  const url = "http://localhost:3000/append-observation";
   const body = {
     org: org,
-    enrollmentID: enrollmentID,
-    affiliation: affiliation,
-    role: role
+    identityName: identityName,
+    patientId: patientId,
+    observationData: observationData
   };
 
   try {
@@ -30,4 +30,12 @@ const registerUser = async (org, enrollmentID, affiliation, role) => {
 };
 
 // Example usage
-registerUser("org1", "test212", "org1.department1", "client");
+const observationData = {
+  type: "blood pressure",
+  value: "122/80",
+  unit: "mmHg"
+};
+
+appendData("org1", "test21", "patient123", observationData);
+
+

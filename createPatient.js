@@ -1,5 +1,33 @@
-const createPatient = async () => {
+const fetch = require('node-fetch');
+
+const createPatient = async (org, identityName, patientData) => {
   const url = "http://localhost:3000/create-patient";
+  const body = {
+    org: org,
+    identityName: identityName,
+    patientData: patientData
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    const text = await response.text();
+    if (response.ok) {
+      console.log("Success:", text);
+    } else {
+      console.error("Failed:", text);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
 
   const patientData = {
     resourceType: "Patient",
@@ -45,21 +73,6 @@ const createPatient = async () => {
     ],
   };
 
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(patientData),
-    });
+  
 
-    const result = await response.json();
-    console.log("Success:", result);
-  } catch (error) {
-    console.error("Error:", error);
-  }
-};
-
-// Call the function to execute the POST request
-createPatient();
+  createPatient("org1", "test21", patientData);

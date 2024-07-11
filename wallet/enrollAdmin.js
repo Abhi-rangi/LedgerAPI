@@ -10,7 +10,7 @@ const yaml = require("js-yaml");
 
 async function main() {
   const ccpPath = path.resolve(
-    "/Users/abhishek/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com",
+    "/Users/pouriatayebi/go/src/github.com/pouriata2000/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com",
 
     "connection-org1.yaml"
   );
