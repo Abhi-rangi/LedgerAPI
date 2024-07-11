@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 
 const createPatient = async (org, identityName, patientData) => {
-  const url = "http://localhost:3000/create-patient";
+  const url = "http://localhost:3001/create-patient";
   const body = {
     org: org,
     identityName: identityName,
@@ -73,6 +73,5 @@ const createPatient = async (org, identityName, patientData) => {
     ],
   };
 
-  
 
   createPatient("org1", "test21", patientData);

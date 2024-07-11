@@ -4,11 +4,14 @@ const FabricCAServices = require("fabric-ca-client");
 const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
-
+const cors = require("cors");
 const app = express();
 app.use(express.json());
+app.use(cors());
 
-const ccpPathBase = "/Users/pouriatayebi/go/src/github.com/pouriata2000/fabric-samples/test-network/organizations/peerOrganizations";
+
+const ccpPathBase =
+  "/Users/abhishek/fabric-samples/test-network/organizations/peerOrganizations";
 
 // Function to connect to gateway
 const connectToGateway = async (org, identityName) => {
@@ -16,7 +19,7 @@ const connectToGateway = async (org, identityName) => {
     const ccpPath = path.resolve(`${ccpPathBase}/${org}.example.com`, `connection-${org}.yaml`);
     const ccp = yaml.load(fs.readFileSync(ccpPath, "utf8"));
 
-    const walletPath = path.join(process.cwd(), `wallet/wallet`);
+    const walletPath = path.join(process.cwd(), `wallet`);
     const wallet = await Wallets.newFileSystemWallet(walletPath);
 
     const identity = await wallet.get(identityName);
@@ -56,7 +59,7 @@ app.post("/registerUser", async (req, res) => {
       caInfo.caName
     );
 
-    const walletPath = path.join(process.cwd(), `wallet/wallet`);
+    const walletPath = path.join(process.cwd(), `wallet`);
     const wallet = await Wallets.newFileSystemWallet(walletPath);
 
     const adminIdentity = await wallet.get("admin");
@@ -93,6 +96,23 @@ app.post("/registerUser", async (req, res) => {
     res.status(500).send(`Error in registering or enrolling user: ${error}`);
   }
 });
+app.post("/checkUser", async (req, res) => {
+  const { org, enrollmentID } = req.body;
+
+  try {
+    const walletPath = path.join(process.cwd(), `wallet`);
+    const wallet = await Wallets.newFileSystemWallet(walletPath);
+
+    const userIdentity = await wallet.get(enrollmentID);
+    if (userIdentity) {
+      res.status(200).send(`User ${enrollmentID} is already registered`);
+    } else {
+      res.status(404).send(`User ${enrollmentID} is not registered`);
+    }
+  } catch (error) {
+    res.status(500).send(`Error in checking user registration: ${error}`);
+  }
+});
 
 // Endpoint to create a patient
 app.post("/create-patient", async (req, res) => {
@@ -104,7 +124,7 @@ app.post("/create-patient", async (req, res) => {
       return;
     }
     const network = await gateway.getNetwork("mychannel");
-    const contract = network.getContract("pt");
+    const contract = network.getContract("basic");
 
     await contract.submitTransaction(
       "CreatePatient",
@@ -132,7 +152,7 @@ app.post("/append-observation", async (req, res) => {
       return;
     }
     const network = await gateway.getNetwork("mychannel");
-    const contract = network.getContract("pt");
+    const contract = network.getContract("basic");
 
     await contract.submitTransaction(
       "AppendObservation",
@@ -161,7 +181,7 @@ app.get("/get-patient/:id", async (req, res) => {
       return;
     }
     const network = await gateway.getNetwork("mychannel");
-    const contract = network.getContract("pt");
+    const contract = network.getContract("basic");
 
     const result = await contract.evaluateTransaction("ReadPatient", id);
     await gateway.disconnect();
@@ -196,6 +216,6 @@ app.get("/get-all-patients", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Server is listening on port http://localhost:3000");
+app.listen(3001, () => {
+  console.log("Server is listening on port http://localhost:3001");
 });

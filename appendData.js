@@ -1,7 +1,7 @@
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
 
 const appendData = async (org, identityName, patientId, observationData) => {
-  const url = "http://localhost:3000/append-observation";
+  const url = "http://localhost:3001/append-observation";
   const body = {
     org: org,
     identityName: identityName,
@@ -36,6 +36,6 @@ const observationData = {
   unit: "mmHg"
 };
 
-appendData("org1", "test21", "patient123", observationData);
+appendData("org1", "test212", "testpatient1", observationData);
 
 

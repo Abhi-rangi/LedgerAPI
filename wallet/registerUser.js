@@ -1,7 +1,7 @@
-const fetch = require('node-fetch');
+
 
 const registerUser = async (org, enrollmentID, affiliation, role) => {
-  const url = "http://localhost:3000/registerUser";
+  const url = "http://localhost:3001/registerUser";
   const body = {
     org: org,
     enrollmentID: enrollmentID,
@@ -30,4 +30,4 @@ const registerUser = async (org, enrollmentID, affiliation, role) => {
 };
 
 // Example usage
-registerUser("org1", "test212", "org1.department1", "client");
+registerUser("org1", "test213", "org1.department1", "client");
