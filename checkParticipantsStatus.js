@@ -11,7 +11,7 @@ const peerUrls = {
 
 async function listChannelParticipants(channelName) {
   const ccpPath = path.resolve(
-    "/Users/pouriatayebi/go/src/github.com/pouriata2000/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com",
+    "/Users/abhishek/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com",
     "connection-org2.json"
   );
   const ccp = JSON.parse(fs.readFileSync(ccpPath, "utf8"));

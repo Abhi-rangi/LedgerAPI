@@ -4,8 +4,8 @@ const path = require("path");
 
 async function listChannelParticipants(channelName) {
   const ccpPath = path.resolve(
-    "/Users/abhishek/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com",
-    "connection-org2.json"
+    "/Users/abhishek/Documents/HyperLedgerFabric/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com",
+    "connection-org1.json"
   ); // Adjust to your connection profile path
   const ccp = JSON.parse(fs.readFileSync(ccpPath, "utf8"));
 
@@ -38,7 +38,7 @@ async function listChannelParticipants(channelName) {
 }
 
 // Usage example
-listChannelParticipants("channel1")
+listChannelParticipants("mychannel")
   .then((participants) => console.log("Participants:", participants))
   .catch((error) =>
     console.error("Failed to list channel participants:", error)

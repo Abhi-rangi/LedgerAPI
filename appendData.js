@@ -31,11 +31,13 @@ const appendData = async (org, identityName, patientId, observationData) => {
 
 // Example usage
 const observationData = {
-  type: "blood pressure",
-  value: "122/80",
-  unit: "mmHg"
+  type: "test measurement",
+  value: "test value",
+  unit: "test unit"
 };
 
-appendData("org1", "test212", "testpatient1", observationData);
+appendData("org1", "test21", "patient123", observationData);
+
+
 
 

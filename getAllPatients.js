@@ -1,7 +1,7 @@
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
 
 const getAllPatients = async (org, identityName) => {
-  const url = `http://localhost:3000/get-all-patients`;
+  const url = `http://localhost:3001/get-all-patients`;
 
   try {
     const response = await fetch(url, {
@@ -24,5 +24,5 @@ const getAllPatients = async (org, identityName) => {
 };
 
 // Example usage
-getAllPatients("org1", "test212");
+getAllPatients("org1", "test21");
 

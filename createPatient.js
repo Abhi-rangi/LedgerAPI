@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
 
 const createPatient = async (org, identityName, patientData) => {
   const url = "http://localhost:3001/create-patient";

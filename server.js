@@ -9,9 +9,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-
 const ccpPathBase =
-  "/Users/abhishek/fabric-samples/test-network/organizations/peerOrganizations";
+  "/Users/abhishek/Documents/HyperLedgerFabric/fabric-samples/test-network/organizations/peerOrganizations";
 
 // Function to connect to gateway
 const connectToGateway = async (org, identityName) => {
@@ -158,7 +157,7 @@ app.post("/append-observation", async (req, res) => {
       "AppendObservation",
       patientId,
       JSON.stringify(observationData),
-      timestamp // Pass the timestamp as a parameter
+      // timestamp // Pass the timestamp as a parameter
     );
     await gateway.disconnect();
 
@@ -204,8 +203,9 @@ app.get("/get-all-patients", async (req, res) => {
       return;
     }
     const network = await gateway.getNetwork("mychannel");
-    const contract = network.getContract("pt");
-
+    const contract = network.getContract("basic");
+const result1 = await contract.evaluateTransaction("getAllKeys");
+console.log(`Transaction has been evaluated, result is: ${result1.toString()}`);
     const result = await contract.evaluateTransaction("GetAllPatients");
     await gateway.disconnect();
 
@@ -215,6 +215,57 @@ app.get("/get-all-patients", async (req, res) => {
     res.status(500).json({ message: `Failed to fetch patients: ${error.message}` });
   }
 });
+// Endpoint to delete a patient
+app.delete("/delete-patient", async (req, res) => {
+    try {
+        const { org, identityName, patientId } = req.body; // Assuming patientId comes in the request body for security reasons
+
+        const gateway = await connectToGateway(org, identityName);
+        if (!gateway) {
+            res.status(500).send("Failed to connect to gateway.");
+            return;
+        }
+        const network = await gateway.getNetwork("mychannel");
+        const contract = network.getContract("basic");
+
+        // Submit transaction to delete a patient record
+        await contract.submitTransaction("DeletePatient", patientId);
+        await gateway.disconnect();
+
+        res.status(200).json({ message: `Patient record with ID ${patientId} has been deleted.` });
+    } catch (error) {
+        console.error(`Failed to delete patient record: ${error}`);
+        res.status(500).json({ message: `Failed to delete patient: ${error.message}` });
+    }
+});
+app.get("/asset-history/:assetId", async (req, res) => {
+  try {
+    const org = req.headers["org"];
+    const identityName = req.headers["identityname"];
+    const { assetId } = req.params;
+    const gateway = await connectToGateway(org, identityName);
+    if (!gateway) {
+      res.status(500).send("Failed to connect to gateway.");
+      return;
+    }
+    const network = await gateway.getNetwork("mychannel");
+    const contract = network.getContract("basic");
+
+    const history = await contract.evaluateTransaction(
+      "GetAssetHistory",
+      assetId
+    );
+    await gateway.disconnect();
+
+    res.status(200).json({ history: JSON.parse(history.toString()) });
+  } catch (error) {
+    console.error(`Failed to retrieve asset history: ${error}`);
+    res
+      .status(500)
+      .json({ message: `Failed to retrieve asset history: ${error.message}` });
+  }
+});
+
 
 app.listen(3001, () => {
   console.log("Server is listening on port http://localhost:3001");

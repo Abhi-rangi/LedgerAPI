@@ -30,4 +30,4 @@ const registerUser = async (org, enrollmentID, affiliation, role) => {
 };
 
 // Example usage
-registerUser("org1", "test213", "org1.department1", "client");
+registerUser("org1", "test21", "org1.department1", "client");

@@ -1,19 +1,22 @@
 const { execSync } = require('child_process');
 const path = require('path');
 
-const absolutePathToFabricSamples = '/Users/pouriatayebi/go/src/github.com/pouriata2000/fabric-samples';
+const absolutePathToFabricSamples = '/Users/abhishek/Documents/HyperLedgerFabric/fabric-samples';
 const absolutePathToTestNetwork = path.resolve(absolutePathToFabricSamples, 'test-network');
 
-const chaincodeName = 'pt';
-const chaincodeVersion = '1.0';
-const chaincodePath = path.resolve(absolutePathToFabricSamples, 'Healthcare-chaincode_V2');
+const chaincodeName = 'basic2';
+const chaincodeVersion = '2.0';
+const chaincodePath = path.resolve(
+  absolutePathToFabricSamples,
+  "asset-transfer-basic/Healthcare-chaincode"
+);
 const channelName = 'mychannel';
-const ordererEndpoint = 'orderer.example.com:7050';
+const ordererEndpoint = "localhost:7050";
 
 async function main() {
     try {
         // Set environment variables for Fabric binaries and configuration
-        process.env.FABRIC_CFG_PATH = path.resolve(absolutePathToTestNetwork, 'config');
+        process.env.FABRIC_CFG_PATH = path.resolve(absolutePathToFabricSamples, 'config');
         process.env.PATH = `${process.env.PATH}:${path.resolve(absolutePathToFabricSamples, 'bin')}`;
 
         // Install dependencies for the chaincode
